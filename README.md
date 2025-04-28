@@ -65,7 +65,7 @@ A Flask web application that leverages OpenAI’s ChatGPT (via LangChain) to pro
    ```
 
 4. **Configure environment**  
-   Write your keys in `.env` file in project root:
+   Create a `.env` file in project root:
    ```
    SECRET_KEY=your_flask_secret_key
    OPENAI_API_KEY=your_openai_api_key
@@ -121,8 +121,7 @@ llm-bmi-diet-planner/
 1. **Sign up** and fill out your profile.  
 2. **Dashboard** shows your BMI, targets, and quick-action buttons.  
 3. **Generate Plans**:  
-   - Click “7-Day Diet Plan” or “Food Analysis”  
-   - For single-day plans, use the respective buttons.  
+   - Click “7-Day Diet Plan” or “Food Analysis”   
 4. **Track** each day’s exercise, diet ✓/✗ and update your weight.  
 5. **Export** all records to Excel for your archives.  
 6. **Chat**: Click “Chat with Bot” to open the live advisor in a new tab.  
@@ -149,5 +148,6 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE) for d
 
 - [LangChain](https://github.com/langchain/langchain)  
 - [OpenAI](https://openai.com)  
-- Inspired by modern health & fitness web apps  
+- Inspired by modern health & fitness web apps
+- Created by [Hafiz Abdul Ahad](https://github.com/hafizabdulahad0)
 ```
