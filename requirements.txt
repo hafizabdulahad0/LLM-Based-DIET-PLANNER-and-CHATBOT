@@ -1,0 +1,9 @@
+flask
+sqlalchemy
+pandas
+numpy
+requests
+datetime
+pydantic
+dotenv
+openpyxl

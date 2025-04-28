@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Diet Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        const saved = localStorage.getItem('theme') ||
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', saved);
+        function toggleTheme() {
+          const cur = document.documentElement.getAttribute('data-theme');
+          const nxt = cur==='dark'?'light':'dark';
+          document.documentElement.setAttribute('data-theme', nxt);
+          localStorage.setItem('theme', nxt);
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+          {% if 'user_id' in session %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('calorie_check') }}">Food Analysis</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+          {% endif %}
+        </div>
+        <div class="title">LLM Diet Planner</div>
+        <div class="nav-right">
+          <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+        </div>
+    </nav>
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for m in messages %}<li>{{ m }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

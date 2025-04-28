@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Health Chatbot</h2>
+
+<div class="chat-container">
+  <div class="chat-messages" id="chat-messages"></div>
+  <form id="chat-form" class="chat-form">
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="Tell me about your health…"
+      autocomplete="off"
+      required
+    >
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('chat-form'),
+        msgs = document.getElementById('chat-messages');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const input = document.getElementById('chat-input'),
+          txt = input.value.trim();
+    if (!txt) return;
+    append('You', txt);
+    input.value = '';
+    const res = await fetch('{{ url_for("chat") }}', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: txt})
+    });
+    const { reply } = await res.json();
+    append('Bot', reply);
+  });
+
+  function append(who, txt) {
+    const d = document.createElement('div');
+    d.className = 'message ' + (who==='Bot'?'bot':'user');
+    d.innerHTML = `<strong>${who}:</strong> ${txt}`;
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+</script>
+{% endblock %}

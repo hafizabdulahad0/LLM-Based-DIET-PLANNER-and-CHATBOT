@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="signup-container">
+    <h2>Create Your Account</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <h3>Profile Information</h3>
+
+        <label>Full Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Age:</label>
+        <input type="number" name="age" required>
+
+        <label>Height (cm):</label>
+        <input type="number" step="0.1" name="height" required>
+
+        <label>Weight (kg):</label>
+        <input type="number" step="0.1" name="weight" required>
+
+        <label>Gender:</label>
+        <select name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label>Medical Conditions (if any):</label>
+        <input type="text" name="disease">
+
+        <label>Diet Preference:</label>
+        <select name="diet_preference" required>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="non-vegetarian">Non-Vegetarian</option>
+            <option value="vegan">Vegan</option>
+        </select>
+
+        <label>Budget:</label>
+        <select name="budget" required>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <label>Goal:</label>
+        <select name="goal" required>
+            <option value="weight loss">Weight Loss</option>
+            <option value="weight gain">Weight Gain</option>
+            <option value="maintenance">Maintenance</option>
+        </select>
+
+        <label>Preferred Cuisine:</label>
+        <input type="text" name="cuisine" required>
+
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+{% endblock %}
