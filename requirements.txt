@@ -1,9 +1,12 @@
-flask
-sqlalchemy
+# GitHub repositories used:
+# LangChain:          https://github.com/langchain-ai/langchain
+# OpenAI Python SDK:  https://github.com/openai/openai-python
+
+Flask
+Flask-SQLAlchemy
+python-dotenv
 pandas
-numpy
-requests
-datetime
-pydantic
-dotenv
 openpyxl
+langchain
+openai
+langchain_community
