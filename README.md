@@ -12,7 +12,11 @@ A Flask web application that leverages OpenAI’s ChatGPT (via LangChain) to pro
 - **User Authentication** & Profile Management  
 - **Dark/Light Theme Toggle**  
 
----
+
+
+
+
+
 
 ## 🚀 Features
 
