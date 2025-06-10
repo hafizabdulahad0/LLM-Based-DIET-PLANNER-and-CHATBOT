@@ -1,113 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% block title %}7-Day Diet Plan – FitPlan{% endblock %}
+
 {% block content %}
-<style>
-/* Card container */
-.plan-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
+<section class="pt-8 pb-16 px-4 max-w-4xl mx-auto print:px-0 print:py-4">
 
-/* Section heading */
-.plan-container h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
-  color: #2c3e50;
-  text-align: left;
-}
+  <!-- Heading + Print Button -->
+  <div class="flex justify-between items-center mb-6 print:hidden">
+    <h1 class="text-2xl font-bold">🥗 Here's your 7-Day Diet Plan</h1>
+    <button onclick="window.print()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition">
+      🖨️ Print Plan
+    </button>
+  </div>
 
-/* Print button */
-.print-button {
-  display: inline-block;
-  margin-bottom: 16px;
-  padding: 8px 16px;
-  background: #2ecc71;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.print-button:hover {
-  background: #27ae60;
-}
+  <p class="mb-8 text-gray-600 dark:text-gray-300 print:hidden">
+    Follow this AI-personalized plan based on your goals and preferences.
+  </p>
 
-/* Table styling */
-.plan-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-.plan-table th {
-  background-color: #2ecc71;
-  color: #ffffff;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 12px 16px;
-  border: 1px solid #ddd;
-}
-.plan-table td {
-  padding: 12px 16px;
-  border: 1px solid #ddd;
-  color: #333333;
-  font-size: 0.95rem;
-  vertical-align: top;
-  word-wrap: break-word;
-}
-.plan-table tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-.plan-table tbody tr:nth-child(even) {
-  background-color: #ffffff;
-}
-.plan-table tbody tr:hover {
-  background-color: #e8f8f5;
-}
-
-/* Print-specific: hide nav and print button, tighten margins */
-@media print {
-  nav,
-  .print-button {
-    display: none !important;
-  }
-  body {
-    margin: 0;
-  }
-}
-</style>
-
-<div class="plan-container">
-  <h2>Meal Plan</h2>
-  <button id="print-btn" class="print-button">Print Plan</button>
-
-  <table class="plan-table">
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Breakfast</th>
-        <th>Lunch</th>
-        <th>Dinner</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for day, meals in daily_plan.items() %}
-      <tr>
-        <td>{{ day }}</td>
-        <td>{{ meals.breakfast }}</td>
-        <td>{{ meals.lunch }}</td>
-        <td>{{ meals.dinner }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<script>
-  document.getElementById('print-btn')
-    .addEventListener('click', () => window.print());
-</script>
+  <!-- Meal Cards -->
+  <div class="space-y-6">
+    {% for day, m in daily_plan.items() %}
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
+      <h2 class="text-xl font-semibold mb-4">📅 {{ day }}</h2>
+      <ul class="list-disc list-inside space-y-2 text-sm text-gray-800 dark:text-gray-200">
+        <li><strong>Breakfast:</strong> {{ m.breakfast }}</li>
+        <li><strong>Lunch:</strong> {{ m.lunch }}</li>
+        <li><strong>Dinner:</strong> {{ m.dinner }}</li>
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

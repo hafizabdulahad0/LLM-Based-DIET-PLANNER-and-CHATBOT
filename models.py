@@ -14,7 +14,7 @@ class UserProfile(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    height = db.Column(db.Float, nullable=False)
+    height = db.Column(db.Float, nullable=False)  # stored in cm
     weight = db.Column(db.Float, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     disease = db.Column(db.String(200))

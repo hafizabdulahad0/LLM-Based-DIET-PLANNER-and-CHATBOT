@@ -1,78 +1,98 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% block title %}Dashboard – FitPlan{% endblock %}
 {% block content %}
-<h2>Welcome, {{ profile.name }}!</h2>
+<section class="pt-6 pb-16 px-4 md:px-8 max-w-6xl mx-auto animate-fade-in">
+  <h1 class="text-3xl font-bold mb-6 text-center">Welcome, {{ profile.name }}! 🎉</h1>
 
-<div class="stats-row">
-  <div class="stat-item">
-    <h3>BMI:</h3>
-    <p>
-      {{ bmi }} (
-      {% if bmi < 18.5 %}Underweight{% elif bmi < 25 %}Perfect Weight{% else %}Overweight{% endif %}
-      )
-    </p>
-    <meter value="{{ bmi }}" low="18.5" high="25" min="10" max="40"></meter>
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105">
+      <h3 class="text-sm text-gray-600 dark:text-gray-300 mb-1">BMI</h3>
+      <p class="text-2xl font-semibold">{{ bmi }}</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105">
+      <h3 class="text-sm text-gray-600 dark:text-gray-300 mb-1">Weight</h3>
+      <p class="text-2xl font-semibold">{{ profile.weight }} kg</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105">
+      <h3 class="text-sm text-gray-600 dark:text-gray-300 mb-1">Goal</h3>
+      <p class="text-2xl font-semibold">{{ profile.goal.replace('_',' ').title() }}</p>
+    </div>
+    <!-- Streak Card -->
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg shadow-lg p-6 transition hover:scale-105">
+      <h3 class="text-sm mb-1">🔥 Streak</h3>
+      <p class="text-xl font-semibold">{{ streak }}-Day Workout Streak</p>
+    </div>
   </div>
-  <div class="stat-item">
-    <h3>Current Weight:</h3>
-    <p>{{ profile.weight }} kg</p>
-  </div>
-  <div class="stat-item">
-    <h3>Height:</h3>
-    <p>{{ profile.height }} cm</p>
-  </div>
-  <div class="stat-item">
-    <h3>Target Weight:</h3>
-    <p>{{ target_weight }} kg</p>
-  </div>
-</div>
 
-<div class="button-row">
-  <button onclick="location.href='{{ url_for('generate_daily_diet_plan') }}'">
-    7-Day Diet Plan
-  </button>
-  <button onclick="location.href='{{ url_for('calorie_check') }}'">
-    Food Analysis
-  </button>
-  <button onclick="window.open('{{ url_for('chatbot_page') }}','_blank')">
-    Chat with Bot
-  </button>
-</div>
-
-<div class="to-do-form">
-  <h3>Update Daily Record</h3>
-  <form method="POST" action="{{ url_for('update_daily_record') }}">
-    <label>Day Number</label>
-    <input type="number" name="dayNumber" min="1" max="30" required>
-    <label><input type="checkbox" name="exercise"> Exercise Done?</label>
-    <label><input type="checkbox" name="dietFollowed"> Diet Followed?</label>
-    <label>Today's Weight (kg)</label>
-    <input type="number" step="0.1" name="newWeight" required>
-    <button type="submit">Update Record</button>
-  </form>
-</div>
-
-<div class="records-section">
-  <h3>Daily Records</h3>
-  <a href="{{ url_for('export_records') }}" class="button">Export to Excel</a>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr><th>Date</th><th>Day</th><th>Exercise</th><th>Diet</th><th>Weight (kg)</th></tr>
-      </thead>
-      <tbody>
-        {% for rec in daily_records %}
-        <tr>
-          <td>{{ rec.date.strftime('%Y-%m-%d') }}</td>
-          <td>{{ rec.day_number }}</td>
-          <td>{% if rec.exercise %}✓{% else %}✗{% endif %}</td>
-          <td>{% if rec.diet_followed %}✓{% else %}✗{% endif %}</td>
-          <td>{{ rec.new_weight }}</td>
-        </tr>
-        {% else %}
-        <tr><td colspan="5">No records found</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Action Buttons -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-10">
+    <a href="{{ url_for('generate_daily_diet_plan') }}" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-lg shadow hover:scale-105 transition">🍽️ Diet Plan</a>
+    <a href="{{ url_for('generate_daily_exercise_plan') }}" class="bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-lg shadow hover:scale-105 transition">🏋️ Exercise Plan</a>
+    <a href="{{ url_for('calorie_check') }}" class="bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-lg shadow hover:scale-105 transition">🥑 Food Check</a>
+    <a href="{{ url_for('chatbot_page') }}" class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white py-3 rounded-lg shadow hover:scale-105 transition">🤖 Chat</a>
   </div>
-</div>
+
+  <!-- Daily Record Form and Table -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">📅 Record Daily Update</h2>
+      <form method="POST" action="{{ url_for('update_daily_record') }}" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-sm">Day #</label>
+          <input type="number" name="dayNumber" min="1" max="365" required class="w-full px-4 py-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        </div>
+        <div class="flex items-center gap-4">
+          <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="exercise" class="scale-125"/> Workout
+          </label>
+          <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="dietFollowed" class="scale-125"/> Diet Followed
+          </label>
+        </div>
+        <div>
+          <label class="block mb-1 text-sm">New Weight (kg)</label>
+          <input type="number" name="newWeight" step="0.1" required class="w-full px-4 py-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+        </div>
+        <button type="submit" class="bg-indigo-600 text-white w-full py-2 rounded-lg hover:bg-indigo-700 transition">Submit</button>
+      </form>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 overflow-auto">
+      <h2 class="text-xl font-semibold mb-4">📈 Recent Updates</h2>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-gray-600 dark:text-gray-300 border-b">
+            <th class="pb-2">Date</th>
+            <th class="pb-2">Day</th>
+            <th class="pb-2">Ex</th>
+            <th class="pb-2">Diet</th>
+            <th class="pb-2">Wt</th>
+            <th class="pb-2">Del</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in daily_records %}
+          <tr class="border-b border-gray-200 dark:border-gray-700">
+            <td class="py-2">{{ r.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ r.day_number }}</td>
+            <td>{{ '✓' if r.exercise else '–' }}</td>
+            <td>{{ '✓' if r.diet_followed else '–' }}</td>
+            <td>{{ r.new_weight }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('delete_daily_record') }}">
+                <input type="hidden" name="record_id" value="{{ r.id }}">
+                <button type="submit" class="text-red-500 hover:underline">×</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{{ url_for('export_records') }}" class="mt-4 inline-block text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-all">📤 Export CSV</a>
+    </div>
+  </div>
+</section>
 {% endblock %}

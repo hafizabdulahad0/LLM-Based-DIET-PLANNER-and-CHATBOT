@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Home – FitPlan{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-pattern py-20 md:py-28 relative overflow-hidden text-white">
+  <div class="absolute top-20 right-10 w-64 h-64 rounded-full bg-primary/10 blur-3xl -z-10"></div>
+  <div class="absolute bottom-10 left-10 w-72 h-72 rounded-full bg-secondary/10 blur-3xl -z-10"></div>
+
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="flex flex-col md:flex-row items-center">
+      <!-- Left Text -->
+      <div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent animate-fade-up font-montserrat">
+          Transform Your Health Journey
+        </h1>
+        <p class="text-lg md:text-xl mt-6 max-w-xl mx-auto md:mx-0 text-gray-300 animate-fade-up delay-100">
+          Personalized AI-powered plans, nutrition insights, and smart tracking to help you achieve your fitness goals faster and smarter.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4 animate-fade-up delay-200">
+          <a href="{{ url_for('signup') }}" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center">
+            Start Free Today
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+          <a href="{{ url_for('login') }}" class="border-2 border-primary text-white px-8 py-4 rounded-xl font-medium hover:bg-primary hover:text-white transition-all flex items-center justify-center">
+            <i class="fas fa-user mr-2"></i>
+            Existing Member
+          </a>
+        </div>
+
+        <!-- User Stats -->
+        <div class="mt-10 flex flex-wrap justify-center md:justify-start gap-6 animate-fade-up delay-300">
+          <div class="flex items-center">
+            <div class="flex -space-x-3">
+              <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User">
+              <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/44.jpg" alt="User">
+              <img class="w-10 h-10 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/68.jpg" alt="User">
+            </div>
+            <div class="ml-3 text-sm text-gray-300">
+              <p class="font-medium">10,000+ Active Users</p>
+              <div class="flex items-center text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="ml-2">4.8/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Image -->
+      <div class="md:w-1/2 flex justify-center animate-fade-up delay-300">
+        <div class="relative">
+          <div class="floating relative z-10">
+            <img src="{{ url_for('static', filename='img/logo_fit.png') }}" alt="FitPlan App" class="w-full max-w-sm rounded-xl shadow-xl">
+          </div>
+          <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-primary/20 blur-xl z-0"></div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-secondary/20 blur-xl z-0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Full Home Sections -->
+{% include 'partials/home_sections.html' %}
+
+{% endblock %}

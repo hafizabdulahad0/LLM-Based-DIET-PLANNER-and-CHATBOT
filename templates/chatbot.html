@@ -1,47 +1,88 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Health Chatbot</h2>
+{% extends 'base.html' %}
+{% block title %}Chat Assistant – FitPlan{% endblock %}
 
-<div class="chat-container">
-  <div class="chat-messages" id="chat-messages"></div>
-  <form id="chat-form" class="chat-form">
-    <input
-      type="text"
-      id="chat-input"
-      placeholder="Tell me about your health…"
-      autocomplete="off"
-      required
-    >
-    <button type="submit">Send</button>
-  </form>
-</div>
+{% block content %}
+<section class="pt-8 pb-16 px-4 max-w-4xl mx-auto flex flex-col gap-6 print:hidden">
+
+  <!-- Intro Greeting -->
+  <div class="text-lg">
+    👋 Hi, I’m your fitness assistant! Feel free to ask me anything about your plan, meals, or workouts.
+  </div>
+
+  <!-- Chat Window -->
+  <div class="flex flex-col h-[80vh] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div class="bg-gray-100 dark:bg-gray-700 px-4 py-3 text-lg font-semibold">
+      💬 Chat Window
+    </div>
+
+    <!-- Message Display Area -->
+    <div id="chatMessages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-sm bg-gray-50 dark:bg-gray-900 prose dark:prose-invert max-w-full">
+      <div class="bg-purple-600 text-white p-3 rounded-lg w-fit max-w-lg prose-sm">
+        <strong>👋 Hello!</strong> I'm your AI health assistant. How can I help?
+      </div>
+    </div>
+
+    <!-- Message Input -->
+    <div class="flex items-center border-t border-gray-300 dark:border-gray-600 p-4 bg-gray-50 dark:bg-gray-900">
+      <input id="userMessage" type="text" placeholder="Type your message..."
+             class="flex-grow px-4 py-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+      <button id="sendBtn"
+              class="ml-4 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+        Send
+      </button>
+    </div>
+  </div>
+
+</section>
 
 <script>
-  const form = document.getElementById('chat-form'),
-        msgs = document.getElementById('chat-messages');
+const messagesContainer = document.getElementById("chatMessages");
+const userInput = document.getElementById("userMessage");
+const sendBtn = document.getElementById("sendBtn");
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const input = document.getElementById('chat-input'),
-          txt = input.value.trim();
-    if (!txt) return;
-    append('You', txt);
-    input.value = '';
-    const res = await fetch('{{ url_for("chat") }}', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: txt})
+function escapeHTML(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>")
+    .replace(/• /g, "•&nbsp;");
+}
+
+function appendMessage(text, type = "bot") {
+  const div = document.createElement("div");
+  div.className = type === "user"
+    ? "bg-blue-600 text-white p-3 rounded-lg self-end w-fit max-w-lg ml-auto"
+    : "bg-purple-600 text-white p-3 rounded-lg w-fit max-w-lg prose-sm";
+  div.innerHTML = type === "bot" ? escapeHTML(text) : text;
+  messagesContainer.appendChild(div);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+sendBtn.addEventListener("click", async () => {
+  const text = userInput.value.trim();
+  if (!text) return;
+
+  appendMessage("🧍 " + text, "user");
+  userInput.value = "";
+  sendBtn.disabled = true;
+
+  try {
+    const res = await fetch("{{ url_for('chat') }}", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
     });
-    const { reply } = await res.json();
-    append('Bot', reply);
-  });
 
-  function append(who, txt) {
-    const d = document.createElement('div');
-    d.className = 'message ' + (who==='Bot'?'bot':'user');
-    d.innerHTML = `<strong>${who}:</strong> ${txt}`;
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
+    if (!res.ok) throw new Error("Server error");
+    const data = await res.json();
+    appendMessage("🤖 " + data.reply, "bot");
+  } catch (err) {
+    appendMessage("❌ Failed to get response. Try again.");
+  } finally {
+    sendBtn.disabled = false;
   }
+});
 </script>
 {% endblock %}

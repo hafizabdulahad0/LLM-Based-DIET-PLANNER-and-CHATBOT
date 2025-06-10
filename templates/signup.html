@@ -1,70 +1,86 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% block title %}Sign Up – FitPlan{% endblock %}
 {% block content %}
-
-<div class="signup-container">
-    <h2>Create Your Account</h2>
-
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-
-    <form method="POST">
-        <label>Email:</label>
-        <input type="email" name="email" required>
-
-        <label>Password:</label>
-        <input type="password" name="password" required>
-
-        <h3>Profile Information</h3>
-
-        <label>Full Name:</label>
-        <input type="text" name="name" required>
-
-        <label>Age:</label>
-        <input type="number" name="age" required>
-
-        <label>Height (cm):</label>
-        <input type="number" step="0.1" name="height" required>
-
-        <label>Weight (kg):</label>
-        <input type="number" step="0.1" name="weight" required>
-
-        <label>Gender:</label>
-        <select name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+<section class="min-h-[80vh] flex items-center justify-center">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-xl p-8">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Create Your Account</h2>
+    {% if error %}<p class="text-red-600 text-sm text-center mb-4">{{ error }}</p>{% endif %}
+    <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="col-span-2">
+        <label class="block text-sm mb-1" for="name">Name</label>
+        <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div class="col-span-2">
+        <label class="block text-sm mb-1" for="email">Email</label>
+        <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div class="col-span-2">
+        <label class="block text-sm mb-1" for="password">Password</label>
+        <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="age">Age</label>
+        <input type="number" id="age" name="age" required min="13" max="100" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="weight">Weight (kg)</label>
+        <input type="number" id="weight" name="weight" step="0.1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="height_feet">Height (ft)</label>
+        <input type="number" id="height_feet" name="height_feet" required min="3" max="8" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="height_inches">Height (in)</label>
+        <input type="number" id="height_inches" name="height_inches" required min="0" max="11" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="gender">Gender</label>
+        <select id="gender" name="gender" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
         </select>
-
-        <label>Medical Conditions (if any):</label>
-        <input type="text" name="disease">
-
-        <label>Diet Preference:</label>
-        <select name="diet_preference" required>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="non-vegetarian">Non-Vegetarian</option>
-            <option value="vegan">Vegan</option>
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="goal">Goal</label>
+        <select id="goal" name="goal" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <option value="lose_weight">Lose Weight</option>
+          <option value="gain_muscle">Gain Muscle</option>
+          <option value="maintain">Maintain</option>
         </select>
-
-        <label>Budget:</label>
-        <select name="budget" required>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="diet_preference">Diet Preference</label>
+        <select id="diet_preference" name="diet_preference" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <option value="vegetarian">Vegetarian</option>
+          <option value="non_vegetarian">Non-Vegetarian</option>
+          <option value="vegan">Vegan</option>
         </select>
-
-        <label>Goal:</label>
-        <select name="goal" required>
-            <option value="weight loss">Weight Loss</option>
-            <option value="weight gain">Weight Gain</option>
-            <option value="maintenance">Maintenance</option>
+      </div>
+      <div>
+        <label class="block text-sm mb-1" for="budget">Budget</label>
+        <select id="budget" name="budget" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
         </select>
-
-        <label>Preferred Cuisine:</label>
-        <input type="text" name="cuisine" required>
-
-        <button type="submit">Sign Up</button>
+      </div>
+      <div class="col-span-2">
+        <label class="block text-sm mb-1" for="cuisine">Preferred Cuisine</label>
+        <input type="text" id="cuisine" name="cuisine" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div class="col-span-2">
+        <label class="block text-sm mb-1" for="disease">Health Condition (if any)</label>
+        <input type="text" id="disease" name="disease" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+      </div>
+      <div class="col-span-2">
+        <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:scale-105 transition">Sign Up</button>
+      </div>
     </form>
-</div>
+    <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">Already have an account?
+      <a href="{{ url_for('login') }}" class="text-primary underline">Log in</a>
+    </p>
+  </div>
+</section>
 {% endblock %}

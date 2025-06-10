@@ -1,44 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
 <head>
-    <title>BMI Diet Planner</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        const saved = localStorage.getItem('theme') ||
-                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', saved);
-        function toggleTheme() {
-          const cur = document.documentElement.getAttribute('data-theme');
-          const nxt = cur==='dark'?'light':'dark';
-          document.documentElement.setAttribute('data-theme', nxt);
-          localStorage.setItem('theme', nxt);
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FitPlan{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  <!-- Tailwind CDN (latest) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Optional: Customize Tailwind theme directly in the script -->
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          primary: '#6366f1',
+          secondary: '#a855f7',
+        },
+      },
+    }
+  };
+</script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+      const current = localStorage.getItem("theme") || "light";
+      html.classList.remove("light", "dark");
+      html.classList.add(current);
+      if (themeToggle) {
+        themeToggle.textContent = current === "dark" ? "☀️" : "🌙";
+        themeToggle.addEventListener("click", () => {
+          const newTheme = html.classList.contains("dark") ? "light" : "dark";
+          html.classList.remove("light", "dark");
+          html.classList.add(newTheme);
+          localStorage.setItem("theme", newTheme);
+          themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
+        });
+      }
+    });
+  </script>
 </head>
-<body>
-    <nav>
-        <div class="nav-left">
-          {% if 'user_id' in session %}
-            <a href="{{ url_for('dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('calorie_check') }}">Food Analysis</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-          {% endif %}
-        </div>
-        <div class="title">LLM Diet Planner</div>
-        <div class="nav-right">
-          <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-        </div>
-    </nav>
-    <div class="container">
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class="flashes">
-            {% for m in messages %}<li>{{ m }}</li>{% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-      {% block content %}{% endblock %}
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+  <header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-indigo-600">FitPlan</div>
+      <nav class="flex gap-4">
+        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-500" title="Dashboard">🏠</a>
+        <a href="{{ url_for('generate_daily_diet_plan') }}" class="hover:text-green-500" title="Diet">🥗</a>
+        <a href="{{ url_for('generate_daily_exercise_plan') }}" class="hover:text-pink-500" title="Workout">💪</a>
+        <a href="{{ url_for('calorie_check') }}" class="hover:text-emerald-500" title="Food Analysis">🍎</a>
+        <a href="{{ url_for('chatbot_page') }}" class="hover:text-yellow-500" title="Chatbot">🤖</a>
+        <a href="{{ url_for('logout') }}" class="hover:text-red-500" title="Logout">🚪</a>
+      </nav>
+      <button id="themeToggle" class="text-xl">🌙</button>
     </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer class="mt-12 py-4 text-center text-xs text-gray-500">
+    &copy; 2025 FitPlan. Built with ❤️
+  </footer>
 </body>
 </html>
