@@ -125,27 +125,37 @@ Format as plain text bullet points.
 
 def get_daily_diet_plan(profile, openai_api_key: str) -> dict:
     """
-    Returns a dict mapping each weekday to a one-day meal plan (JSON).
+    Returns a dict mapping each weekday to a one-day meal plan (JSON),
+    with portion sizes and exclusively Pakistani, weight-loss–friendly dishes.
     """
+    from langchain.llms import OpenAI
+    from langchain.chains import LLMChain
+    from langchain.prompts import PromptTemplate
+
     llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key, max_tokens=2000)
     prompt = PromptTemplate(
         input_variables=[
             "age", "gender", "bmi", "goal",
-            "diet_preference", "budget", "disease", "cuisine"
+            "diet_preference", "budget", "disease"
         ],
         template="""\
-Produce **ONLY** a complete JSON object with keys Sunday through Saturday.
-Each day must be an object with "breakfast","lunch","dinner" — all items must be Pakistani dishes or products.
+Produce **ONLY** a JSON object with keys "Sunday" through "Saturday".  
+Each day must be an object with keys "breakfast", "lunch", and "dinner".  
+Every dish must include a portion size, e.g. "2 chapatis (40g each)", "1 small bowl (150g) dal".
 
 RULES:
-1. Only local Pakistani foods.
-2. No imported or non-Pakistani ingredients.
-3. Use healthy, whole-food Pakistani recipes.
-4. Consider budget and dietary restrictions.
+1. ONLY use healthy, whole-food **Pakistani** dishes and ingredients.
+2. If goal is **weight_loss**, NEVER include high-oil or high-cholesterol foods (e.g., no halwa, no aloo paratha).
+3. Favor low-fat, low-sugar **Pakistani** recipes for weight_loss.
+4. Include fruits, vegetables, whole grains, lean proteins, healthy fats common in Pakistan.
+5. Home-cooked, portion-controlled meals.
+6. Consider budget constraints and any medical conditions.
+7. If a disease is present, avoid any contraindicated foods.
 
 User Profile:
 - Age: {age}, Gender: {gender}, BMI: {bmi}
-- Goal: {goal}, Diet: {diet_preference}, Budget: {budget}, Conditions: {disease}, Cuisine Preference: Pakistani
+- Goal: {goal}, Diet Preference: {diet_preference}, Budget: {budget}
+- Conditions: {disease}
 """
     )
     chain = LLMChain(llm=llm, prompt=prompt)
@@ -156,10 +166,10 @@ User Profile:
         goal=profile.goal,
         diet_preference=profile.diet_preference,
         budget=profile.budget,
-        disease=profile.disease or "None",
-        cuisine="Pakistani"
+        disease=profile.disease or "None"
     )
     return _parse_json(raw)
+
 
 
 def get_daily_exercise_plan(profile, openai_api_key: str) -> dict:
