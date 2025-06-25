@@ -1,157 +1,185 @@
+# LLM-Based Diet Planner and Chatbot
 
-# LLM-Based BMI Diet Planner
+A Flask web application that leverages OpenAI’s Large Language Models (via LangChain) to provide personalized health and fitness guidance, focusing on Pakistani cuisine and accessible exercises. Key functionalities include:
 
-A Flask web application that leverages OpenAI’s ChatGPT (via LangChain) to provide personalized health and fitness guidance:
-
-- **BMI Calculation & Status** (Underweight, Normal, Overweight)  
-- **7-Day Diet Plan** (bullet format)  
-- **Food Analysis** (calories, nutrients, pros/cons, recommendation)  
-- **Daily Tracking** (exercise ✔️, diet ✔️, weight update)  
-- **Export Records** to Excel  
-- **Live Health Chatbot** with conversation history  
-- **User Authentication** & Profile Management  
-- **Dark/Light Theme Toggle**  
-
-
-
-
-
-
+- **BMI Calculation & Status** (Underweight, Normal, Overweight)
+- **Personalized 7-Day Diet Plans** (structured daily meals: breakfast, lunch, dinner)
+- **Personalized 7-Day Exercise Plans** (structured daily workouts: warmup, main, cooldown)
+- **Food Analysis** (calories, nutrients, pros/cons, recommendations for Pakistani food items)
+- **Daily Progress Tracking** (exercise adherence, diet compliance, weight updates)
+- **Export Records** to Excel (`.xlsx`) format
+- **Live Health Chatbot** with conversation history, tailored to user's profile
+- **User Authentication** & Comprehensive Profile Management
+- **Dark/Light Theme Toggle** for user interface customization
 
 ## 🚀 Features
 
-- **Authentication**: Email/password signup & login  
-- **User Profile**: Name, age, height, weight, gender, medical conditions, diet preferences, budget, goal, cuisine style  
-- **Dashboard**:  
-  - Real-time BMI display & meter  
-  - Current weight, height & target weight  
-  - Action buttons for plans, food analysis & chatbot  
-  - Daily record form & table of history  
-- **AI-Powered Plans**:  
-  - 7-day diet plan (bullet list)  
-- **Food Analysis**: Caloric breakdown, nutritional highlights, pros/cons, recommendation  
-- **Tracking & Export**: Update daily record; export history as `.xlsx`  
-- **Health Chatbot**: Live conversation, personalized advice, saved chat history  
-- **Responsive UI**: Modern CSS with animations, dark/light mode, print-friendly  
+-   **Authentication**: Secure email and password based signup and login system.
+-   **User Profile**: Collects essential user data for personalization:
+    -   Personal Details: Name, age, gender.
+    -   Physical Metrics: Height (cm), weight (kg).
+    -   Health Information: Existing medical conditions (disease), diet preferences (vegetarian, non-vegetarian, vegan).
+    -   Fitness Goals: Lose weight, gain muscle, maintain.
+    -   Preferences: Preferred cuisine style (e.g., Pakistani).
+-   **Dashboard**:
+    -   Real-time BMI display with a visual meter and status.
+    -   Current weight, height, and target goal overview.
+    -   Quick action buttons for generating diet/exercise plans, food analysis, and accessing the chatbot.
+    -   Daily record form for tracking exercise, diet adherence, and current weight.
+    -   Table displaying recent daily records with an option to delete entries.
+    -   Workout streak counter.
+-   **AI-Powered Plans**:
+    -   **7-Day Diet Plans**: Generates structured daily meal plans (breakfast, lunch, dinner) tailored to the user's profile, focusing on healthy, whole-food Pakistani dishes and considering any specified medical conditions.
+    -   **7-Day Exercise Plans**: Creates structured daily exercise routines (warmup, main workout, cooldown) using exercises common and accessible in Pakistan, aligned with the user's fitness level and goals.
+-   **Food Analysis**: Provides a detailed analysis of user-specified food items (particularly within Pakistani cuisine context) including:
+    -   Estimated calories and macronutrient breakdown.
+    -   Pros and cons in relation to the user's profile.
+    -   Recommendations, healthier alternatives, and portion advice.
+-   **Tracking & Export**:
+    -   Users can log daily exercise completion, diet adherence, and update their weight.
+    -   Ability to export the entire health record history as an `.xlsx` file.
+-   **Health Chatbot**:
+    -   Interactive AI chatbot for personalized advice on diet, fitness, and wellness.
+    -   Leverages user profile data for contextual responses.
+    -   Strictly focuses on Pakistani foods, products, and exercises.
+    -   Saves conversation history for continued interaction.
+-   **Responsive UI**:
+    -   Modern user interface built with Tailwind CSS.
+    -   Supports Dark and Light mode, with user preference saved in local storage.
+    -   Print-friendly layouts for diet and exercise plans.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.8+, Flask, Flask-SQLAlchemy (SQLite)  
-- **AI**: LangChain, OpenAI API (ChatGPT)  
-- **Database**: SQLite (via SQLAlchemy)  
-- **Frontend**: HTML5, CSS3, JavaScript (vanilla)  
-- **Data**: pandas, openpyxl (for Excel export)  
+-   **Backend**: Python, Flask, Flask-SQLAlchemy
+-   **AI**: LangChain, OpenAI API (GPT models)
+-   **Database**: SQLite
+-   **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript
+-   **Data Handling**: pandas, openpyxl (for Excel export)
+-   **Environment Management**: python-dotenv
 
 ---
 
 ## 📥 Installation
 
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/yourusername/llm-bmi-diet-planner.git
-   cd llm-bmi-diet-planner
-   ```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/hafizabdulahad0/LLM-Based-DIET-PLANNER-and-CHATBOT.git
+    cd LLM-Based-DIET-PLANNER-and-CHATBOT
+    ```
 
-2. **Create & activate virtual env**  
-   ```bash
-   python -m venv venv
-   # macOS / Linux
-   source venv/bin/activate
-   # Windows
-   venv\Scripts\activate
-   ```
+2.  **Create and activate a virtual environment**
+    ```bash
+    # For Python 3
+    python -m venv venv
+    ```
+    Activate the environment:
+    ```bash
+    # On Windows
+    .\venv\Scripts\activate
+    # On macOS/Linux
+    source venv/bin/activate
+    ```
 
-3. **Install dependencies**  
-   ```bash
-   pip install -r requirements.txt
-   ```
+3.  **Install dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-4. **Configure environment**  
-   Create a `.env` file in project root:
-   ```
-   SECRET_KEY=your_flask_secret_key
-   OPENAI_API_KEY=your_openai_api_key
-   ```
+4.  **Configure environment variables**
+    Create a `.env` file in the project root directory and add your API keys:
+    ```env
+    SECRET_KEY=your_flask_secret_key_here
+    OPENAI_API_KEY=your_openai_api_key_here
+    ```
+    Replace `your_flask_secret_key_here` with a strong, random string and `your_openai_api_key_here` with your actual OpenAI API key.
 
-5. **Initialize database**  
-   ```bash
-   python app.py
-   ```
-   This will auto-create `instance/database.db`.
+5.  **Initialize the database**
+    The database (`instance/database.db`) will be created automatically when you first run the application, as `db.create_all()` is called within the app context.
 
 ---
 
 ## ▶️ Running the App
 
+Execute the main application file:
 ```bash
 python app.py
 ```
+The application will start, typically on `http://localhost:5000`. Open this URL in your web browser.
 
-- Open your browser at `http://localhost:5000`  
-- Sign up, complete your profile, and explore the dashboard!
+-   Sign up for a new account or log in if you already have one.
+-   Complete your user profile with accurate information for personalized plans.
+-   Explore the dashboard, generate plans, track your progress, and interact with the chatbot.
 
 ---
 
 ## 📂 Project Structure
 
 ```
-llm-bmi-diet-planner/
-├── app.py                  # Flask application & routes
-├── models.py               # SQLAlchemy models
-├── utils.py                # BMI calc, LangChain prompts, chatbot logic
-├── requirements.txt        # Python dependencies
-├── .env                    # Environment variables (not committed)
+LLM-Based-DIET-PLANNER-and-CHATBOT/
+├── app.py                  # Main Flask application: routes and core logic
+├── models.py               # SQLAlchemy database models (User, UserProfile, etc.)
+├── utils.py                # Utility functions: BMI calculation, LangChain prompts, AI interactions
+├── requirements.txt        # Python dependencies for pip
+├── .env                    # Environment variables (SECRET_KEY, OPENAI_API_KEY) - Gitignored
 ├── instance/
-│   └── database.db         # SQLite database
+│   └── database.db         # SQLite database file
 ├── static/
-│   └── style.css           # Main stylesheet
-└── templates/
-    ├── base.html
-    ├── login.html
-    ├── signup.html
-    ├── dashboard.html
-    ├── chatbot.html
-    ├── daily_diet_plan.html
-    ├── exercise_plan.html
-    └── calorie_check.html
+│   ├── style.css           # Custom CSS styles (Tailwind base)
+│   └── img/                # Image assets (e.g., logo)
+├── templates/              # HTML templates for views
+│   ├── base.html           # Base layout with header, footer, theme toggle
+│   ├── login.html          # User login page
+│   ├── signup.html         # User registration wizard
+│   ├── dashboard.html      # User dashboard with stats and actions
+│   ├── chatbot.html        # Chat interface for AI assistant
+│   ├── daily_diet_plan.html # Displays 7-day diet plan
+│   ├── exercise_plan.html  # Displays 7-day exercise plan
+│   ├── calorie_check.html  # Food analysis input and results
+│   └── partials/
+│       └── home_sections.html # Reusable sections for the home page
+├── tailwind.config.js      # Tailwind CSS configuration
+├── vercel.json             # Vercel deployment configuration
+└── wsgi.py                 # WSGI entry point for deployment
 ```
 
 ---
 
 ## 📝 Usage
 
-1. **Sign up** and fill out your profile.  
-2. **Dashboard** shows your BMI, targets, and quick-action buttons.  
-3. **Generate Plans**:  
-   - Click “7-Day Diet Plan” or “Food Analysis”   
-4. **Track** each day’s exercise, diet ✓/✗ and update your weight.  
-5. **Export** all records to Excel for your archives.  
-6. **Chat**: Click “Chat with Bot” to open the live advisor in a new tab.  
+1.  **Sign Up / Login**: Create a new account or log in with existing credentials. New users will be guided through a multi-step profile setup.
+2.  **Dashboard**: After login, the dashboard provides an overview of your BMI, current stats, and quick links to features.
+3.  **Generate Plans**:
+    -   Click "Diet Plan" to get a 7-day personalized meal plan.
+    -   Click "Exercise Plan" for a 7-day workout schedule.
+    -   Use "Food Check" to analyze specific food items.
+4.  **Daily Tracking**: On the dashboard, fill the "Record Daily Update" form to log your activity, diet adherence, and new weight.
+5.  **Export Data**: Click "Export CSV" on the dashboard to download your health records.
+6.  **Chat with AI**: Click "Chat" or navigate to the chatbot page to interact with the AI health assistant for advice and queries.
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork this repository  
-2. Create a feature branch (`git checkout -b feature/xyz`)  
-3. Commit your changes (`git commit -m 'Add xyz'`)  
-4. Push to branch (`git push origin feature/xyz`)  
-5. Open a Pull Request  
+Contributions are welcome! If you'd like to contribute, please follow these steps:
+
+1.  Fork this repository.
+2.  Create a new feature branch (`git checkout -b feature/your-feature-name`).
+3.  Make your changes and commit them (`git commit -m 'Add some feature'`).
+4.  Push to your feature branch (`git push origin feature/your-feature-name`).
+5.  Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-This project is released under the **MIT License**. See [LICENSE](LICENSE) for details.
+This project is released under the **MIT License**. See `LICENSE` for details.
 
 ---
 
 ## 🤖 Acknowledgments
 
-- [LangChain](https://github.com/langchain/langchain)  
-- [OpenAI](https://openai.com)  
-- Inspired by modern health & fitness web apps
-- Created by [Hafiz Abdul Ahad](https://github.com/hafizabdulahad0)
-```
+-   [LangChain](https://github.com/langchain/langchain) for the LLM framework.
+-   [OpenAI](https://openai.com) for providing the powerful language models.
+-   Project created and maintained by [Hafiz Abdul Ahad](https://github.com/hafizabdulahad0).
