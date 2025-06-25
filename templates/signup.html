@@ -1,86 +1,206 @@
 {% extends 'base.html' %}
 {% block title %}Sign Up – FitPlan{% endblock %}
+
 {% block content %}
 <section class="min-h-[80vh] flex items-center justify-center">
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-xl p-8">
-    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Create Your Account</h2>
-    {% if error %}<p class="text-red-600 text-sm text-center mb-4">{{ error }}</p>{% endif %}
-    <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" for="name">Name</label>
-        <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+  <div class="flex w-full max-w-6xl bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+    
+    <!-- Left Side: Welcome Box -->
+    <div class="hidden md:flex flex-1 items-center justify-center bg-gradient-to-br from-primary to-blue-700 text-white px-12 py-16 relative">
+      <!-- Decorative Overlay -->
+      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+      <div class="relative max-w-md text-center space-y-6">
+        <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <div class="bg-white/10 rounded-xl p-4 shadow-xl">
+          <h1 class="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-300 to-yellow-300 drop-shadow-lg">
+            Start Your Fitness Journey
+          </h1>
+        </div>
+        <p class="text-lg text-white/90 font-bold">
+          Personalized meal plans &amp; smart tools. Join our <span class="text-white">FitPlan</span> community now.
+        </p>
+        <div class="text-sm italic text-white/80">
+          “Your health is an investment, not an expense.”
+        </div>
       </div>
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" for="email">Email</label>
-        <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" for="password">Password</label>
-        <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="age">Age</label>
-        <input type="number" id="age" name="age" required min="13" max="100" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="weight">Weight (kg)</label>
-        <input type="number" id="weight" name="weight" step="0.1" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="height_feet">Height (ft)</label>
-        <input type="number" id="height_feet" name="height_feet" required min="3" max="8" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="height_inches">Height (in)</label>
-        <input type="number" id="height_inches" name="height_inches" required min="0" max="11" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="gender">Gender</label>
-        <select id="gender" name="gender" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="goal">Goal</label>
-        <select id="goal" name="goal" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-          <option value="lose_weight">Lose Weight</option>
-          <option value="gain_muscle">Gain Muscle</option>
-          <option value="maintain">Maintain</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="diet_preference">Diet Preference</label>
-        <select id="diet_preference" name="diet_preference" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-          <option value="vegetarian">Vegetarian</option>
-          <option value="non_vegetarian">Non-Vegetarian</option>
-          <option value="vegan">Vegan</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm mb-1" for="budget">Budget</label>
-        <select id="budget" name="budget" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-      </div>
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" for="cuisine">Preferred Cuisine</label>
-        <input type="text" id="cuisine" name="cuisine" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" for="disease">Health Condition (if any)</label>
-        <input type="text" id="disease" name="disease" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
-      </div>
-      <div class="col-span-2">
-        <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:scale-105 transition">Sign Up</button>
-      </div>
-    </form>
-    <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">Already have an account?
-      <a href="{{ url_for('login') }}" class="text-primary underline">Log in</a>
-    </p>
+    </div>
+
+    <!-- Right Side: Signup Wizard -->
+    <div class="flex-1 p-8 max-w-md">
+      <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+        Create Your Account
+      </h2>
+      {% if error %}
+        <p class="text-red-600 text-sm text-center mb-4">{{ error }}</p>
+      {% endif %}
+      <form method="POST" id="signup-form" class="space-y-6">
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
+          <div id="progress-bar" class="bg-primary h-2 rounded-full" style="width: 33%;"></div>
+        </div>
+
+        <!-- Step 1: Account Info -->
+        <div class="wizard-step" data-step="1">
+          <div>
+            <label for="name" class="block text-sm mb-1">Name</label>
+            <input type="text" name="name" id="name" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm mb-1 mt-4">Email</label>
+            <input type="email" name="email" id="email" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+          <div>
+            <label for="password" class="block text-sm mb-1 mt-4">Password</label>
+            <input type="password" name="password" id="password" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+        </div>
+
+        <!-- Step 2: Body Metrics -->
+        <div class="wizard-step hidden" data-step="2">
+          <div>
+            <label for="age" class="block text-sm mb-1">Age</label>
+            <input type="number" name="age" id="age" min="13" max="100" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+          <div>
+            <label for="weight" class="block text-sm mb-1 mt-4">Weight (kg)</label>
+            <input type="number" name="weight" id="weight" step="0.1" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <label for="height_feet" class="block text-sm mb-1">Height (ft)</label>
+              <input type="number" name="height_feet" id="height_feet" min="3" max="8" required
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div>
+              <label for="height_inches" class="block text-sm mb-1">Height (in)</label>
+              <input type="number" name="height_inches" id="height_inches" min="0" max="11" required
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Preferences & Goals -->
+        <div class="wizard-step hidden" data-step="3">
+          <div>
+            <label for="gender" class="block text-sm mb-1">Gender</label>
+            <select name="gender" id="gender" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="goal" class="block text-sm mb-1 mt-4">Goal</label>
+            <select name="goal" id="goal" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              <option value="">Select</option>
+              <option value="lose_weight">Lose Weight</option>
+              <option value="gain_muscle">Gain Muscle</option>
+              <option value="maintain">Maintain</option>
+            </select>
+          </div>
+
+          <!-- Diet Preference Cards -->
+          <p class="mt-6 mb-2 font-semibold text-gray-700 dark:text-gray-300">Diet Preference</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <label class="cursor-pointer block bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-6 py-6 rounded-2xl border-2 border-transparent hover:border-green-500 transition-all">
+              <input type="radio" name="diet_preference" value="vegetarian" required class="hidden" />
+              <div class="text-3xl mb-2">🥗</div>
+              <div class="font-semibold text-lg text-gray-800 dark:text-white">Vegetarian</div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Plant-Based</p>
+            </label>
+            <label class="cursor-pointer block bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-6 py-6 rounded-2xl border-2 border-transparent hover:border-red-500 transition-all">
+              <input type="radio" name="diet_preference" value="non_vegetarian" required class="hidden" />
+              <div class="text-3xl mb-2">🍗</div>
+              <div class="font-semibold text-lg text-gray-800 dark:text-white">Non-Veg</div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Meat & Eggs</p>
+            </label>
+            <label class="cursor-pointer block bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-6 py-6 rounded-2xl border-2 border-transparent hover:border-purple-500 transition-all">
+              <input type="radio" name="diet_preference" value="vegan" required class="hidden" />
+              <div class="text-3xl mb-2">🌱</div>
+              <div class="font-semibold text-lg text-gray-800 dark:text-white">Vegan</div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">No Animal Products</p>
+            </label>
+          </div>
+
+          <div>
+            <label for="cuisine" class="block text-sm mb-1 mt-6">Preferred Cuisine</label>
+            <input type="text" name="cuisine" id="cuisine"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+          <div>
+            <label for="disease" class="block text-sm mb-1 mt-4">Health Condition (if any)</label>
+            <input type="text" name="disease" id="disease"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-6">
+          <button type="button" id="prev-btn"
+            class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hidden">
+            ← Previous
+          </button>
+          <button type="button" id="next-btn"
+            class="bg-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition">
+            Next →
+          </button>
+          <button type="submit" id="submit-btn"
+            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:scale-105 transition hidden">
+            Sign Up
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        Already have an account?
+        <a href="{{ url_for('login') }}" class="text-primary underline">Log in</a>
+      </p>
+    </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const steps = Array.from(document.querySelectorAll('.wizard-step'));
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const progressBar = document.getElementById('progress-bar');
+    let current = 0;
+
+    function showStep(idx) {
+      steps.forEach((step, i) => step.classList.toggle('hidden', i !== idx));
+      prevBtn.classList.toggle('hidden', idx === 0);
+      nextBtn.classList.toggle('hidden', idx === steps.length - 1);
+      submitBtn.classList.toggle('hidden', idx !== steps.length - 1);
+      progressBar.style.width = ((idx + 1) / steps.length * 100) + '%';
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (current < steps.length - 1) {
+        current++;
+        showStep(current);
+      }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (current > 0) {
+        current--;
+        showStep(current);
+      }
+    });
+
+    showStep(current);
+  });
+</script>
 {% endblock %}

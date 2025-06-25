@@ -67,63 +67,76 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     error = None
+
     if request.method == 'POST':
         try:
-            if User.query.filter_by(email=request.form['email']).first():
-                raise ValueError("Email already exists")
-            pwd = request.form['password']
+            email = request.form.get('email', '').strip()
+            pwd   = request.form.get('password', '')
+
+            # 1) Duplicate‐email check
+            if User.query.filter_by(email=email).first():
+                raise ValueError("An account with that email already exists.")
+
+            # 2) Password length
             if len(pwd) < 6:
-                raise ValueError("Password must be at least 6 characters")
+                raise ValueError("Password must be at least 6 characters.")
 
-            feet = int(request.form.get('height_feet', 0))
+            # 3) Height → cm
+            feet   = int(request.form.get('height_feet', 0))
             inches = int(request.form.get('height_inches', 0))
-            if feet < 3 or feet > 8 or inches < 0 or inches > 11:
-                raise ValueError("Height must be between 3-8 ft and 0-11 in")
-            total_in = feet * 12 + inches
-            height_cm = round(total_in * 2.54)
+            if not (3 <= feet <= 8 and 0 <= inches <= 11):
+                raise ValueError("Height must be between 3–8 ft and 0–11 in.")
+            total_inches = feet * 12 + inches
+            height_cm    = round(total_inches * 2.54)
 
-            age = int(request.form['age'])
-            if age < 13 or age > 100:
-                raise ValueError("Age must be between 13 and 100")
-            weight = float(request.form['weight'])
-            if weight < 30 or weight > 300:
-                raise ValueError("Weight must be between 30 and 300 kg")
+            # 4) Age & weight
+            age = int(request.form.get('age', 0))
+            if not (13 <= age <= 100):
+                raise ValueError("Age must be between 13 and 100.")
+            weight = float(request.form.get('weight', 0))
+            if not (30 <= weight <= 300):
+                raise ValueError("Weight must be between 30 and 300 kg.")
 
+            # 5) Create User (note `password=` matches your model) :contentReference[oaicite:0]{index=0}
             user = User(
-                email=request.form['email'],
+                email=email,
                 password=generate_password_hash(pwd)
             )
             db.session.add(user)
             db.session.commit()
 
+            # 6) Create Profile (no budget) :contentReference[oaicite:1]{index=1}
             profile = UserProfile(
                 user_id=user.id,
-                name=request.form['name'].strip(),
+                name=request.form.get('name', '').strip(),
                 age=age,
                 height=height_cm,
                 weight=weight,
-                gender=request.form['gender'],
+                gender=request.form.get('gender'),
                 disease=request.form.get('disease', '').strip(),
-                diet_preference=request.form['diet_preference'],
-                budget=request.form['budget'],
-                goal=request.form['goal'],
-                cuisine=request.form['cuisine']
+                diet_preference=request.form.get('diet_preference'),
+                goal=request.form.get('goal'),
+                cuisine=request.form.get('cuisine', '').strip()
             )
             db.session.add(profile)
             db.session.commit()
 
+            # 7) Log in & redirect
             session['user_id'] = user.id
-            flash(f'Welcome to FitPlan, {profile.name}! Your journey starts now.', 'success')
+            flash(f"Welcome, {profile.name}! Your journey starts now.", 'success')
             return redirect(url_for('dashboard'))
 
         except ValueError as ve:
             db.session.rollback()
             error = str(ve)
-        except Exception:
-            db.session.rollback()
-            error = 'Registration error. Please try again.'
-    return render_template('signup.html', error=error)
 
+        except Exception as e:
+            db.session.rollback()
+            app.logger.exception("Signup failed")
+            # In debug mode, show the real error
+            error = f"Registration error: {e}"
+
+    return render_template('signup.html', error=error)
 
 @app.route('/dashboard')
 def dashboard():
@@ -324,6 +337,6 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-
+# at the bottom of app.py
 if __name__ == '__main__':
     app.run(debug=True)

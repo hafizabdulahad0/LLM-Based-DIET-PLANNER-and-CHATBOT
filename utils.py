@@ -59,7 +59,7 @@ def get_diet_plan(profile, bmi: float, status: str, openai_api_key: str) -> str:
     prompt = PromptTemplate(
         input_variables=[
             "age", "gender", "bmi", "status",
-            "goal", "diet_preference", "budget", "disease"
+            "goal", "diet_preference", "disease"
         ],
         template="""
 Create a comprehensive 30-day healthy diet plan for a {age}-year-old {gender} with BMI {bmi} ({status}).
@@ -73,7 +73,6 @@ Requirements:
 User Profile:
 - Goal: {goal}
 - Diet Preference: {diet_preference}
-- Budget: {budget}
 - Health Conditions: {disease}
 
 For days 1–30, list bullet points for:
@@ -95,7 +94,6 @@ Format as plain text.
         status=status,
         goal=profile.goal,
         diet_preference=profile.diet_preference,
-        budget=profile.budget,
         disease=profile.disease or "None"
     )
 
@@ -136,7 +134,7 @@ def get_daily_diet_plan(profile, openai_api_key: str) -> dict:
     prompt = PromptTemplate(
         input_variables=[
             "age", "gender", "bmi", "goal",
-            "diet_preference", "budget", "disease"
+            "diet_preference", "disease"
         ],
         template="""\
 Produce **ONLY** a JSON object with keys "Sunday" through "Saturday".  
@@ -149,12 +147,12 @@ RULES:
 3. Favor low-fat, low-sugar **Pakistani** recipes for weight_loss.
 4. Include fruits, vegetables, whole grains, lean proteins, healthy fats common in Pakistan.
 5. Home-cooked, portion-controlled meals.
-6. Consider budget constraints and any medical conditions.
+6. Consider medical conditions. and carefully create the plan according to it (if any)
 7. If a disease is present, avoid any contraindicated foods.
 
 User Profile:
 - Age: {age}, Gender: {gender}, BMI: {bmi}
-- Goal: {goal}, Diet Preference: {diet_preference}, Budget: {budget}
+- Goal: {goal}, Diet Preference: {diet_preference},
 - Conditions: {disease}
 """
     )
@@ -165,7 +163,6 @@ User Profile:
         bmi=calculate_bmi(profile.weight, profile.height),
         goal=profile.goal,
         diet_preference=profile.diet_preference,
-        budget=profile.budget,
         disease=profile.disease or "None"
     )
     return _parse_json(raw)
@@ -256,7 +253,6 @@ Always use:
   BMI: {current_bmi:.1f} ({status})
   Goal: {profile.goal}
   Diet Preference: {profile.diet_preference}
-  Budget: {profile.budget}
   Known Disease: {profile.disease or "None"}
 
 If user asks anything else, redirect: "I specialize in Pakistani diet and fitness. How can I assist?"

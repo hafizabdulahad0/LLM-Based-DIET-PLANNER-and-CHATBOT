@@ -1,24 +1,72 @@
 {% extends 'base.html' %}
 {% block title %}Login – FitPlan{% endblock %}
+
 {% block content %}
 <section class="min-h-[80vh] flex items-center justify-center">
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-md p-8">
-    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Welcome Back</h2>
-    {% if error %}<p class="text-red-600 text-sm text-center mb-4">{{ error }}</p>{% endif %}
-    <form method="POST" class="space-y-4">
-      <div>
-        <label class="block text-sm mb-1" for="email">Email</label>
-        <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"/>
+  <div class="flex w-full max-w-6xl bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+
+    <!-- Left Side: Welcome Box -->
+    <div class="hidden md:flex flex-1 items-center justify-center bg-gradient-to-br from-primary to-blue-700 text-white px-12 py-16 relative">
+      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+      <div class="relative max-w-md text-center space-y-6">
+        <div class="flex justify-center">
+          <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div class="bg-white/10 rounded-xl p-4 shadow-xl">
+          <h1 class="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-300 to-yellow-300 drop-shadow-lg tracking-tight">
+            Welcome Back to FitPlan
+          </h1>
+        </div>
+        <p class="text-lg text-white/90 leading-relaxed font-bold">
+          Your personalized fitness plan is just a click away. Let’s pick up where you left off!
+        </p>
+        <div class="mt-6 text-sm italic text-white/80">
+          “Consistency is what transforms average into excellence.”
+        </div>
       </div>
-      <div>
-        <label class="block text-sm mb-1" for="password">Password</label>
-        <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"/>
-      </div>
-      <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:scale-105 transition">Login</button>
-    </form>
-    <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">Don't have an account?
-      <a href="{{ url_for('signup') }}" class="text-primary underline">Sign up</a>
-    </p>
+    </div>
+
+    <!-- Right Side: Login Form -->
+    <div class="flex-1 p-8 max-w-md">
+      <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+        Login to Your Account
+      </h2>
+      {% if error %}
+        <p class="text-red-600 text-sm text-center mb-4">{{ error }}</p>
+      {% endif %}
+      <form method="POST" class="space-y-6">
+        <div>
+          <label class="block text-sm mb-1" for="email">Email</label>
+          <input type="email" id="email" name="email" required
+            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1" for="password">Password</label>
+          <input type="password" id="password" name="password" required
+            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <input type="checkbox" id="remember" name="remember"
+              class="mr-1 rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700" />
+            <label for="remember" class="text-sm text-gray-600 dark:text-gray-400">Remember me</label>
+          </div>
+         
+        </div>
+        <button type="submit"
+          class="w-full bg-primary text-white py-2 rounded-lg hover:scale-105 transition">
+          Sign In
+        </button>
+      </form>
+      <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        Don't have an account?
+        <a href="{{ url_for('signup') }}" class="text-primary underline">Sign up now</a>
+      </p>
+    </div>
+
   </div>
 </section>
 {% endblock %}

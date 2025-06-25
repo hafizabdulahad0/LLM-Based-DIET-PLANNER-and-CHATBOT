@@ -19,7 +19,6 @@ class UserProfile(db.Model):
     gender = db.Column(db.String(10), nullable=False)
     disease = db.Column(db.String(200))
     diet_preference = db.Column(db.String(50), nullable=False)
-    budget = db.Column(db.String(50), nullable=False)
     goal = db.Column(db.String(50), nullable=False)
     cuisine = db.Column(db.String(50), nullable=False)
 
